@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -15,13 +16,14 @@ namespace POPS.Controllers
 {
     public class POMASTERsController : Controller
     {
+        string apiUrl = ConfigurationManager.AppSettings["ApiURL"];
         // GET: POMASTERs
         public ActionResult Index()
         {
             List<PoMaster> pOMASTERs = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("POMASTERs");
                 responseTask.Wait();
@@ -54,7 +56,7 @@ namespace POPS.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("POMASTERs/" + id);
                 responseTask.Wait();
@@ -93,16 +95,16 @@ namespace POPS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PONO,PODATE,SUPLNO")] PoMaster pOMASTER)
+        public ActionResult Create([Bind(Include = "PONO,PODATE,SUPLNO")] PoMaster poMaster)
         {
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                    client.BaseAddress = new Uri(apiUrl);
 
                     //HTTP POST
-                    var postTask = client.PostAsJsonAsync<PoMaster>("POMASTERs", pOMASTER);
+                    var postTask = client.PostAsJsonAsync<PoMaster>("POMASTERs", poMaster);
                     postTask.Wait();
 
                     var result = postTask.Result;
@@ -114,8 +116,8 @@ namespace POPS.Controllers
                 ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             }
 
-            ViewBag.SUPLNO = new SelectList(GetSuppliers(), "SUPLNO", "SUPLNAME", pOMASTER.SUPLNO);
-            return View(pOMASTER);
+            ViewBag.SUPLNO = new SelectList(GetSuppliers(), "SUPLNO", "SUPLNAME", poMaster.SUPLNO);
+            return View(poMaster);
         }
 
         // GET: POMASTERs/Edit/5
@@ -128,7 +130,7 @@ namespace POPS.Controllers
             PoMaster pOMASTER = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("POMASTERs/" + id);
                 responseTask.Wait();
@@ -157,16 +159,16 @@ namespace POPS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PONO,PODATE,SUPLNO")] PoMaster pOMASTER)
+        public ActionResult Edit([Bind(Include = "PONO,PODATE,SUPLNO")] PoMaster poMaster)
         {
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/POMASTERs/" + pOMASTER.PONO);
+                    client.BaseAddress = new Uri(apiUrl + "POMASTERs / " + poMaster.PONO);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = client.PutAsJsonAsync(pOMASTER.PONO, pOMASTER).Result;
+                    HttpResponseMessage response = client.PutAsJsonAsync(poMaster.PONO, poMaster).Result;
                     if (response.IsSuccessStatusCode)
                     {
 
@@ -174,8 +176,8 @@ namespace POPS.Controllers
                     }
                 }
             }
-            ViewBag.SUPLNO = new SelectList(GetSuppliers(), "SUPLNO", "SUPLNAME", pOMASTER.SUPLNO);
-            return View(pOMASTER);
+            ViewBag.SUPLNO = new SelectList(GetSuppliers(), "SUPLNO", "SUPLNAME", poMaster.SUPLNO);
+            return View(poMaster);
         }
 
         // GET: POMASTERs/Delete/5
@@ -188,7 +190,7 @@ namespace POPS.Controllers
             PoMaster pOMASTER = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("POMASTERs/" + id);
                 responseTask.Wait();
@@ -221,7 +223,7 @@ namespace POPS.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
 
                 //HTTP DELETE
                 var deleteTask = client.DeleteAsync("POMASTERs/" + id);
@@ -242,7 +244,7 @@ namespace POPS.Controllers
             List<Supplier> suppliers = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //HTTP GET
                 var responseTask = client.GetAsync("suppliers");

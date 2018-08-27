@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -15,13 +16,14 @@ namespace POPS.Controllers
 {
     public class SUPPLIERsController : Controller
     {
+        string apiUrl = ConfigurationManager.AppSettings["ApiURL"];
         // GET: SUPPLIERs
         public ActionResult Index()
         {
             List<Supplier> suppliers = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("suppliers");
                 responseTask.Wait();
@@ -55,7 +57,7 @@ namespace POPS.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("suppliers/" + Id);
                 responseTask.Wait();
@@ -99,7 +101,7 @@ namespace POPS.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                    client.BaseAddress = new Uri(apiUrl);
 
                     //HTTP POST
                     var postTask = client.PostAsJsonAsync<Supplier>("suppliers", sUPPLIER);
@@ -127,7 +129,7 @@ namespace POPS.Controllers
             Supplier sUPPLIER = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("suppliers/" + id);
                 responseTask.Wait();
@@ -153,17 +155,17 @@ namespace POPS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SUPLNO,SUPLNAME,SUPLADDR")] Supplier sUPPLIER)
+        public ActionResult Edit([Bind(Include = "SUPLNO,SUPLNAME,SUPLADDR")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
 
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/Suppliers/"+ sUPPLIER.SUPLNO);
+                    client.BaseAddress = new Uri(apiUrl +"Suppliers/"+ supplier.SUPLNO);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = client.PutAsJsonAsync(sUPPLIER.SUPLNO, sUPPLIER).Result;
+                    HttpResponseMessage response = client.PutAsJsonAsync(supplier.SUPLNO, supplier).Result;
                     if (response.IsSuccessStatusCode)
                     {
 
@@ -171,7 +173,7 @@ namespace POPS.Controllers
                     }
                 }
             }
-            return View(sUPPLIER);
+            return View(supplier);
         }
 
         // GET: SUPPLIERs/Delete/5
@@ -185,7 +187,7 @@ namespace POPS.Controllers
             Supplier sUPPLIER = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("suppliers/" + id);
                 responseTask.Wait();
@@ -219,7 +221,7 @@ namespace POPS.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
 
                 //HTTP DELETE
                 var deleteTask = client.DeleteAsync("suppliers/" + id);

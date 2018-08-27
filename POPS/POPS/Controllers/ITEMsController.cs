@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -15,13 +16,14 @@ namespace POPS.Controllers
 {
     public class ITEMsController : Controller
     {
+        string apiUrl = ConfigurationManager.AppSettings["ApiURL"];
         // GET: ITEMs
         public ActionResult Index()
         {
             List<ITEM> Items = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("items");
                 responseTask.Wait();
@@ -56,7 +58,7 @@ namespace POPS.Controllers
             ITEM iTEM = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("Items/" + id);
                 responseTask.Wait();
@@ -93,16 +95,16 @@ namespace POPS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ITCODE,ITDESC,ITRATE")] ITEM iTEM)
+        public ActionResult Create([Bind(Include = "ITCODE,ITDESC,ITRATE")] ITEM item)
         {
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                    client.BaseAddress = new Uri(apiUrl);
 
                     //HTTP POST
-                    var postTask = client.PostAsJsonAsync<ITEM>("Items", iTEM);
+                    var postTask = client.PostAsJsonAsync<ITEM>("Items", item);
                     postTask.Wait();
 
                     var result = postTask.Result;
@@ -114,7 +116,7 @@ namespace POPS.Controllers
                 ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
             }
 
-            return View(iTEM);
+            return View(item);
         }
 
         // GET: ITEMs/Edit/5
@@ -127,7 +129,7 @@ namespace POPS.Controllers
             ITEM iTEM = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("Items/" + id);
                 responseTask.Wait();
@@ -158,16 +160,16 @@ namespace POPS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ITCODE,ITDESC,ITRATE")] ITEM iTEM)
+        public ActionResult Edit([Bind(Include = "ITCODE,ITDESC,ITRATE")] ITEM item)
         {
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:57888/Api/Items/" + iTEM.ITCODE);
+                    client.BaseAddress = new Uri(apiUrl + "Items/" + item.ITCODE);
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = client.PutAsJsonAsync(iTEM.ITCODE, iTEM).Result;
+                    HttpResponseMessage response = client.PutAsJsonAsync(item.ITCODE, item).Result;
                     if (response.IsSuccessStatusCode)
                     {
 
@@ -175,7 +177,7 @@ namespace POPS.Controllers
                     }
                 }
             }
-            return View(iTEM);
+            return View(item);
         }
 
         // GET: ITEMs/Delete/5
@@ -188,7 +190,7 @@ namespace POPS.Controllers
             ITEM iTEM = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
                 //HTTP GET
                 var responseTask = client.GetAsync("items/" + id);
                 responseTask.Wait();
@@ -221,7 +223,7 @@ namespace POPS.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/");
+                client.BaseAddress = new Uri(apiUrl);
 
                 //HTTP DELETE
                 var deleteTask = client.DeleteAsync("items/" + id);
