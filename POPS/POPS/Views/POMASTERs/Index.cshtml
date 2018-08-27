@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.SUPLNAME)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PONO }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PONO }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PONO })
+            @Html.ActionLink("Edit", "Edit", new { id=item.PONO.Trim() }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PONO.Trim() }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PONO.Trim() })
         </td>
     </tr>
 }

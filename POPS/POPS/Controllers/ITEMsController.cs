@@ -125,12 +125,11 @@ namespace POPS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ITEM iTEM = null;
-            
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:57888/Api/Items/");
+                client.BaseAddress = new Uri("http://localhost:57888/Api/");
                 //HTTP GET
-                var responseTask = client.GetAsync(id);
+                var responseTask = client.GetAsync("Items/" + id);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -140,6 +139,11 @@ namespace POPS.Controllers
                     readTask.Wait();
 
                     iTEM = readTask.Result;
+                }
+                else //web api sent error response 
+                {
+                    //log response status here..
+                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
                 }
             }
             if (iTEM == null)
@@ -230,6 +234,7 @@ namespace POPS.Controllers
                     return RedirectToAction("Index");
                 }
             }
+
             return RedirectToAction("Index");
         }
     }

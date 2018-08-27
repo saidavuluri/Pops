@@ -44,7 +44,7 @@ namespace POPS.Controllers
         }
 
         // GET: PODETAILs/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(string id,string iTCode)
         {
             if (id == null)
             {
@@ -56,7 +56,7 @@ namespace POPS.Controllers
             {
                 client.BaseAddress = new Uri("http://localhost:57888/Api/");
                 //HTTP GET
-                var responseTask = client.GetAsync("PoDetails/" + id);
+                var responseTask = client.GetAsync("PoDetails/" + id + "/" + iTCode);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -121,7 +121,7 @@ namespace POPS.Controllers
         }
 
         // GET: PODETAILs/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id,string iTCode)
         {
             if (id == null)
             {
@@ -132,7 +132,7 @@ namespace POPS.Controllers
             {
                 client.BaseAddress = new Uri("http://localhost:57888/Api/");
                 //HTTP GET
-                var responseTask = client.GetAsync("PoDetails/" + id);
+                var responseTask = client.GetAsync("PoDetails/" + id + "/" + iTCode);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -184,7 +184,7 @@ namespace POPS.Controllers
         }
 
         // GET: PODETAILs/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id,string iTCode)
         {
             if (id == null)
             {
@@ -196,7 +196,7 @@ namespace POPS.Controllers
             {
                 client.BaseAddress = new Uri("http://localhost:57888/Api/");
                 //HTTP GET
-                var responseTask = client.GetAsync("podetails/" + id);
+                var responseTask = client.GetAsync("podetails/" + id + "/" + iTCode);
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -224,14 +224,14 @@ namespace POPS.Controllers
         // POST: PODETAILs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id,string iTCode)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://localhost:57888/Api/");
 
                 //HTTP DELETE
-                var deleteTask = client.DeleteAsync("podetails/" + id);
+                var deleteTask = client.DeleteAsync("podetails/" + id + "/" + iTCode);
                 deleteTask.Wait();
 
                 var result = deleteTask.Result;

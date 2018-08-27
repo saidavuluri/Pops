@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.ITRATE)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ITCODE }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ITCODE }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ITCODE })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ITCODE.Trim() }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ITCODE.Trim() }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ITCODE.Trim() })
         </td>
     </tr>
 }

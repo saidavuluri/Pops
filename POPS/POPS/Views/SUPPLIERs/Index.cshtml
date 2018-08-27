@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.SUPLADDR)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SUPLNO }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SUPLNO }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SUPLNO })
+            @Html.ActionLink("Edit", "Edit", new { id=item.SUPLNO.Trim() }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SUPLNO.Trim() }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SUPLNO.Trim() })
         </td>
     </tr>
 }
