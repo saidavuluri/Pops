@@ -1,0 +1,48 @@
+﻿@model POPS.Models.PoDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PoDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QTY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QTY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITDESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITDESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUPLNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUPLNO)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

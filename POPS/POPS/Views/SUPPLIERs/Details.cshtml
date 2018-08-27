@@ -1,0 +1,34 @@
+﻿@model POPS.Models.Supplier
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Supplier</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SUPLNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUPLNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUPLADDR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUPLADDR)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SUPLNO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

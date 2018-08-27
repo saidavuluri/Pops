@@ -1,0 +1,42 @@
+﻿@model POPS.Models.PoDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PoDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QTY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QTY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ITDESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITDESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUPLNO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUPLNO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
